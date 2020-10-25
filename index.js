@@ -15,29 +15,6 @@ app.use(express.static("build"))
 const Person = require("./models/person")
 const { response } = require("express")
 
-let persons = [
-    {
-        id: 1,
-        name: "Arto Hellas",
-        number: "040-123456"
-    },
-    {
-        id: 2,
-        name: "Ada Lovelace",
-        number: "39-44-5323523"
-    },
-    {
-        id: 3,
-        name: "Dan Abramov",
-        number: "12-43-234345"
-    },
-    {
-        id: 4,
-        name: "Mary Poppendick",
-        number: "39-23-6423122"
-    }
-]
-
 app.get("/info", (req, res) => {
     Person.find({}).then(people => {
         res.send(`<p>Phonebook has info for ${people.length} people</p>
@@ -66,9 +43,8 @@ app.post("/api/persons", (req, res) => {
 
     if(!body.name) return res.status(400).json({error: "name missing"})
     if(!body.number) return res.status(400).json({error: "number missing"})
-    if(persons.find(person => person.name === body.name)) return res.status(400).json({error: "name must be unique"})
 
-    const person = Person({
+    const person = new Person({
         name: body.name,
         number: body.number
     })
@@ -77,6 +53,8 @@ app.post("/api/persons", (req, res) => {
         res.json(savedPerson)
     })
 })
+
+const PORT = process.env.PORT
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

@@ -9,7 +9,7 @@ const password = process.argv[2]
 
 const url = `mongodb+srv://tanttinator:${password}@cluster0.h0a6g.mongodb.net/phonebook-app?retryWrites=true&w=majority`
 
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
 const personSchema = new mongoose.Schema({
     name: String,
@@ -18,7 +18,7 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model("Person", personSchema)
 
-if(process.argv.length == 3) {
+if(process.argv.length === 3) {
 
     console.log("Phonebook:")
     Person.find({}).then(result => {
@@ -28,7 +28,7 @@ if(process.argv.length == 3) {
         mongoose.connection.close()
     })
 }
-else if(process.argv.length == 5) {
+else if(process.argv.length === 5) {
 
     const name = process.argv[3]
     const number = process.argv[4]
@@ -38,7 +38,7 @@ else if(process.argv.length == 5) {
         number: number
     })
 
-    person.save().then(response => {
+    person.save().then(() => {
         console.log(`Added ${name} ${number} to phonebook`)
         mongoose.connection.close()
     })
